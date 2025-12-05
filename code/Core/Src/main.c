@@ -101,7 +101,6 @@ int main(void)
   MX_I2C1_Init();
   MX_I2S3_Init();
   MX_SPI1_Init();
-  // MX_USB_HOST_Init(); // Not using
 
   /* USER CODE BEGIN 2 */
 
@@ -116,7 +115,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    // MX_USB_HOST_Process(); // Not using
     uint32_t pc = GPIOC->IDR;
 
     uint8_t A   = (pc >> 12) & 1;
