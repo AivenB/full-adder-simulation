@@ -86,7 +86,7 @@ make clean
 ```
 6. Ensure the peripheral board is connected properly and test all input combinations.
 
-**Note**: The hardware workflow is exploratory. The primary demonstration comes from the simulation of digital logic.
+**NOTE**: The hardware workflow is exploratory. The primary demonstration comes from the simulation of digital logic.
 
 ## Demonstration
 ### Tinkercad Circuit Setup
