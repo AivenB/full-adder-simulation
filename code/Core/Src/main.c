@@ -57,12 +57,11 @@ static void MX_GPIO_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_I2S3_Init(void);
 static void MX_SPI1_Init(void);
-// void MX_USB_HOST_Process(void); // Not using
 
 /* USER CODE BEGIN PFP */
 void GPIO_Init_FullAdder(void); // custom GPIO initialization
 void GPIO_Init_SevenSegment(void); // custom GPIO initialization for Seven Segment Display
-void Seven_Segment_Digit(unsigned char digit, unsigned char hex_char);
+void Seven_Segment_Digit(unsigned char digit, unsigned char hex_char); // custom function
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -512,6 +511,12 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END 4 */
 
+/**
+ * @brief Custom Function to output to Seven Segment Display
+ * @param digit     The position/index of the seven-segment display
+ * @param hex_char  The hexadecimal character (0-15) to display
+ * @retval NONE
+ */
 void Seven_Segment_Digit (unsigned char digit, unsigned char hex_char)
 {
 /*******************************************************************************
@@ -520,21 +525,21 @@ to output correct bit pattern to GPIO_Output
 *******************************************************************************/
 
 // Limit inputs to valid ranges
-    digit    &= 0x07;   // only 0..7
-    hex_char &= 0x0F;   // only 0..15
+    digit    &= 0x07;   // only 0-7
+    hex_char &= 0x0F;   // only 0-15
 
     // Invert lower 2 bits of digit (required by the board)
     unsigned char low2      = digit & 0x03;
     unsigned char inv_digit = (~low2) & 0x03;
 
     // Start building the output pattern
-    // Clear the bits we care about: PE8..PE15
+    // Clear the bits we care about: PE8-PE15
     GPIO_Output &= ~((uint16_t)0xFF00);
 
     // Put hex_char on PE8..PE11
     GPIO_Output |= ((uint16_t)hex_char << 8);
 
-    // Put inverted digit select on PE12..PE13
+    // Put inverted digit select on PE12-PE13
     GPIO_Output |= ((uint16_t)inv_digit << 12);
 
     // Set both chip select bits high (PE14, PE15 = 1 -> inactive)
@@ -566,7 +571,6 @@ to output correct bit pattern to GPIO_Output
     GPIOE->ODR = GPIO_Output;
 
     return;
-
 }
 
 
